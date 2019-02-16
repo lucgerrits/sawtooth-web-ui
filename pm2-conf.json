@@ -1,0 +1,15 @@
+[{
+    "name"       : "sawtooth-web",
+    "watch"      : ["bin", "routes", "app.js"],
+    "ignore_watch" : ["static","views","node_modules"],
+    "merge_logs" : true,
+    "script"     : "bin/www",
+    "env"        : {
+      "PORT"     : "8000",
+      "DEBUG"    : "sawtooth-web:*"
+    },
+    "error_file" : "~/.pm2/sawtooth-web.out",
+    "out_file"   : "~/.pm2/sawtooth-web.out",
+    "pid_file"   : "~/.pm2/sawtooth-web.pid",
+    "exec_mode"  : "fork"
+}]
