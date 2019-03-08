@@ -10,3 +10,7 @@ a {
 .data {
   position: relative;
 }
+
+.pointer {
+  cursor: pointer;
+}

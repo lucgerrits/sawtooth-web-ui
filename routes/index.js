@@ -8,7 +8,7 @@ router.get('/', function (req, res, next) {
   async.series([
     function (callback) {
       var options = {
-        url: config.sawtooth.apiurl + "blocks",
+        url: config.sawtooth.apiurl + "/blocks",
         method: "GET",
         json: {}
       }
@@ -20,8 +20,15 @@ router.get('/', function (req, res, next) {
     }
   ], function (err) {
     if (err) return next(err);
+    res.ejs_params.title = "Current block list";
     return res.render('index', res.ejs_params);
   })
 });
 
+
+router.get('/configuration', function (req, res, next) {
+  res.ejs_params.config = config;
+  res.ejs_params.title = "Configuration";
+  return res.render('index', res.ejs_params);
+});
 module.exports = router;

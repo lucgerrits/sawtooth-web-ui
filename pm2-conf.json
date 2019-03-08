@@ -5,7 +5,7 @@
     "merge_logs" : true,
     "script"     : "bin/www",
     "env"        : {
-      "PORT"     : "8000",
+      "PORT"     : "8080",
       "DEBUG"    : "sawtooth-web:*"
     },
     "error_file" : "~/.pm2/sawtooth-web.out",
