@@ -1,0 +1,27 @@
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+    $("#refresh-db,#force-refresh-db").click(function() {
+        var btn = $(this)
+        var btn_txt = btn.text();
+        btn.addClass("disabled");
+        btn.text("loading...");
+        $.ajax({
+            type: "POST",
+            url: (btn.attr("id").indexOf("force")!=-1 ? "/force-update-db" : "/update-db"),
+            data: {},
+            dataType: "json",
+            success: function (data) {
+                btn.removeClass("disabled");
+                btn.text(btn_txt);
+                window.location.reload();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                btn.removeClass("disabled");
+                btn.text(btn_txt);
+                return alert("ERROR: \n" + XMLHttpRequest.responseText);
+            }
+        });
+    })
+    </script>

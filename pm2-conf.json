@@ -1,6 +1,6 @@
 [{
     "name"       : "sawtooth-web",
-    "watch"      : ["bin", "routes", "app.js"],
+    "watch"      : ["bin", "routes", "app.js", "lib"],
     "ignore_watch" : ["static","views","node_modules"],
     "merge_logs" : true,
     "script"     : "bin/www",

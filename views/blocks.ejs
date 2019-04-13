@@ -1,0 +1,19 @@
+
+
+
+            <h1 class="mt-5"><%= title %> <small></small></h1>
+            <p class="lead">/blocks (<%- data.length %>)</p>
+            <ul class="list-group">
+                <% for(block of data) { %>
+                    <li class="list-group-item">
+                     ▆ <strong class="pointer"><%- block.header_signature %></strong><br>
+                    <%- block.batch_ids.length %> batches - 
+                    </li>
+                <% } %>
+            </ul>
+
+            <div class="data">
+              <pre>
+                <%- JSON.stringify(data, null, 2) %>
+              </pre>
+            </div>
