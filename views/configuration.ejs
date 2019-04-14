@@ -2,60 +2,59 @@
 <html lang="en" class="h-100">
 
 <head>
-    <title>
-        <%= title %>
-    </title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <% include ../views/include/head %>
 </head>
 
 <body class="d-flex flex-column h-100">
-    <header>
-        <!-- Fixed navbar -->
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="/">Sawtooth-web-ui</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Home </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Begin page content -->
-    <main role="main" class="flex-shrink-0">
+    <% include ../views/include/nav %>
+    <main role="main" class="flex-shrink-0 mt-5">
         <div class="container">
-            <h1 class="mt-5"><%= title %> <small></small></h1>
-            <p class="lead">/blocks (<%- data.data.length %>)</p>
-            <ul class="list-group">
-                <% for(block of data.data) { %>
-                    <li class="list-group-item">
-                     ▆ <strong class="pointer"><%- block.header_signature %></strong><br>
-                    <%- block.batches.length %> batches - 
-                    <% var count = 0; for(i in block.batches) count+=block.batches[i].transactions.length;%>
-                    <%- count %> transactions
-                    </li>
-                <% } %>
-            </ul>
-
-
-            <div class="data">
-              <pre>
-                <%- JSON.stringify(data, null, 2) %>
-              </pre>
+            <h1><%= title %></h1>
+            <div class="row">
+                <div class="col">
+                    <ul>
+                        <li>api url: <span class="edit-content" id="config-apiurl" contenteditable="true"><%- config.sawtooth.apiurl %></span> <button class="btn btn-sm btn-outline-success" id="save-config-apiurl">SAVE</button></li>
+                    </ul>
+                </div>
             </div>
-
+            <div class="row">
+                <div class="col-2">
+                <button class="btn btn-sm btn-outline-success" id="reload-website">Reload (pm2)</button>
+                </div>
+            </div>
         </div>
     </main>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+    <% include ../views/include/footer %>
+    <script>
+    $("#save-config-apiurl").click(function() {
+        $.ajax({
+            type: "POST",
+            url: window.location.href + "/apiurl",
+            data: {
+                apiurl: $("#config-apiurl").text()
+            },
+            dataType: "json",
+            success: function (data) {
+                window.location.reload();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                return alert("ERROR");
+            }
+        });
+    })
+    $("#reload-website").click(function() {
+        $.ajax({
+            type: "POST",
+            url: window.location.href + "/reload-website",
+            data: {},
+            dataType: "json",
+            complete: function (data) {
+                setTimeout(function(){
+                    window.location.reload();
+                }, 2000);
+            }
+        });
+    })
+    </script>
 </body>
 </html>

@@ -1,5 +1,1 @@
-{
-    "sawtooth": {
-        "apiurl": "https://sawtooth-api.gerrits-luc.com"
-    }
-}
+{"sawtooth":{"apiurl":"https://sawtooth-api.gerrits-luc.com"}}

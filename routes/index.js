@@ -10,7 +10,7 @@ router.get("/favicon.ico", function (req, res, next) {
 
 router.get('/', function (req, res, next) {
   res.ejs_params.data = {}
-  async.series([
+  async.parallel([
     function (callback) {
       db.getBlocks(function (err, data) {
         res.ejs_params.blocks = data;

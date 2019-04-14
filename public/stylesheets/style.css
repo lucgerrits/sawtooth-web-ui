@@ -15,3 +15,7 @@ a {
   cursor: pointer;
 }
 
+.edit-content {
+  border: solid 1px;
+  padding: 5px;
+}

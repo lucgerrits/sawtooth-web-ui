@@ -15,23 +15,23 @@
             <button class="btn btn-outline-secondary btn-sm" id="force-refresh-db">Force refresh database</button>
             </small></h1>
             <div class="row">
-                <div class="col-4 text-center">
+                <div class="col text-center">
                     <h2>Blocks</h2>
                     <h3><span class="badge badge-info"><%- (blocks ? blocks.length : 0) %></span></h3>
                 </div>
-                <div class="col-4 text-center">
+                <div class="col text-center">
                     <h2>Batches</h2>
                     <h3><span class="badge badge-info"><%- (batches ? batches.length : 0) %></span></h3>
                 </div>
-                <div class="col-4 text-center">
+                <div class="col text-center">
                     <h2>Transactions</h2>
                     <h3><span class="badge badge-info"><%- (transactions ? transactions.length : 0) %></span></h3>
                 </div>
             </div>
             <div class="row mt-5">
-                <div class="col-4">
+                <div class="col">
                 <ul>
-                    <li>api url: <%- config.sawtooth.apiurl %></li>
+                    <li>api url: <br><%- config.sawtooth.apiurl %></li>
                 </ul>
                 </div>
             </div>
