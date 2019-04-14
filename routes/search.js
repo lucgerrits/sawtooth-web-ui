@@ -9,7 +9,6 @@ router.get('/', function (req, res, next) {
         if(err) console.log(err);
         res.ejs_params.results = data;
         res.ejs_params.title = "Search";
-        console.log(res.ejs_params.results)
         return res.render('search', res.ejs_params);
     })
 });
