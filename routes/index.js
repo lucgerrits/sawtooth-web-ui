@@ -4,6 +4,10 @@ var async = require('async');
 var config = require('../config.json');
 var db = require('../lib/database');
 
+router.get("/favicon.ico", function (req, res, next) {
+  res.send();
+});
+
 router.get('/', function (req, res, next) {
   res.ejs_params.data = {}
   async.series([
