@@ -8,6 +8,7 @@ var config = require('./config.json');
 console.log("Starting sawatooth-web-ui");
 
 var indexRouter = require('./routes/index');
+var configRouter = require('./routes/configuration');
 
 var app = express();
 app.use(function (req, res, next) {
@@ -27,6 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/configuration', configRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

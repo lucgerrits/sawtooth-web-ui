@@ -6,7 +6,7 @@ var db = require('../lib/database');
 
 router.get('/', function (req, res, next) {
   res.ejs_params.data = {}
-  async.series([
+  async.parallel([
     function (callback) {
       db.getBlocks(function (err, data) {
         res.ejs_params.blocks = data;
