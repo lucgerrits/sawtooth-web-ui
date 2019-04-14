@@ -1,14 +1,12 @@
 body {
-  padding: 50px;
+  padding: 20px;
   /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
-}
-
-a {
-  color: #00B7FF;
 }
 
 .data {
   position: relative;
+  width: 100%;
+  border: solid 1px gray;
 }
 
 .pointer {
@@ -18,4 +16,16 @@ a {
 .edit-content {
   border: solid 1px;
   padding: 5px;
+}
+
+.data-media {
+  border-bottom: solid 1px gray;
+  margin-bottom: 10px;
+}
+.data-media .media-body {
+  max-width: 100%;
+}
+
+.media-body-header {
+  font-size: small;
 }

@@ -13,19 +13,19 @@ router.get('/', function (req, res, next) {
   async.parallel([
     function (callback) {
       db.getBlocks(function (err, data) {
-        res.ejs_params.blocks = data;
+        res.ejs_params.blocks = data || [];
         callback(err);
       })
     },
     function (callback) {
       db.getBatches(function (err, data) {
-        res.ejs_params.batches = data;
+        res.ejs_params.batches = data || [];
         callback(err);
       })
     },
     function (callback) {
       db.getTransactions(function (err, data) {
-        res.ejs_params.transactions = data;
+        res.ejs_params.transactions = data || [];
         callback(err);
       })
     }

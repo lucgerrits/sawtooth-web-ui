@@ -1,19 +1,52 @@
+<!doctype html>
+<html lang="en" class="h-100">
 
+<head>
+    <% include ../views/include/head %>
+</head>
 
-
-            <h1 class="mt-5"><%= title %> <small></small></h1>
-            <p class="lead">/blocks (<%- data.length %>)</p>
-            <ul class="list-group">
-                <% for(block of data) { %>
-                    <li class="list-group-item">
-                     ▆ <strong class="pointer"><%- block.header_signature %></strong><br>
-                    <%- block.batch_ids.length %> batches - 
-                    </li>
-                <% } %>
-            </ul>
-
-            <div class="data">
-              <pre>
-                <%- JSON.stringify(data, null, 2) %>
-              </pre>
-            </div>
+<body class="d-flex flex-column h-100">
+    <% include ../views/include/nav %>
+    <main role="main" class="flex-shrink-0 mt-5">
+        <div class="container">
+            <h1>Data <small>search & analyse</small></h1>
+            <div class="row">
+              <div class="col">
+                  <h2>Blocks</h2>
+                  <ul class="list-unstyled">
+                      <% for(block of blocks) { %>
+                      <li class="media data-media">
+                          <div class="media-body">
+                              <span class="media-body-header"><i class="fas fa-fingerprint"></i>: <%- block.block_id %></span>
+                              <br>
+                              <i class="far fa-file" title="Payload"></i>:<br>
+                              <pre class="media-body-payload"><%- PrintJSON("{\"batch_ids\":"+block.batch_ids+"}") %></pre>
+                              <span class="text-muted"><i class="fas fa-key" title="public key"></i>: <i><%- block.signer_public_key %></i></span>
+                              <span class="float-right">
+                                  <span class="badge badge-primary">Block n°<%- block.block_num %></span>
+                              </span>
+                          </div>
+                      </li>
+                      <% } %>
+                  </ul>
+              </div>
+          </div>
+        </div>
+    </main>
+    <% include ../views/include/footer %>
+<script>
+$(".media-body-payload").each(function() {
+    try {
+      var tmp = JSON.parse($(this).text());
+      $(this).jsonViewer(tmp, {
+            collapsed: false,
+            withQuotes: false,
+            //withLinks: false,
+            //rootCollapsable: true
+        });
+    } catch(e) {
+    }
+})
+</script>
+</body>
+</html>

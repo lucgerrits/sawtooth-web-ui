@@ -9,17 +9,23 @@
     <% include ../views/include/nav %>
     <main role="main" class="flex-shrink-0 mt-5">
         <div class="container">
-            <h1><%= title %></h1>
+            <h1>Configuration <small>& tools</small></h1>
             <div class="row">
                 <div class="col">
+                    <h4>Config:</h4>
                     <ul>
                         <li>api url: <span class="edit-content" id="config-apiurl" contenteditable="true"><%- config.sawtooth.apiurl %></span> <button class="btn btn-sm btn-outline-success" id="save-config-apiurl">SAVE</button></li>
                     </ul>
                 </div>
             </div>
             <div class="row">
-                <div class="col-2">
-                <button class="btn btn-sm btn-outline-success" id="reload-website">Reload (pm2)</button>
+                <div class="col">
+                    <h4>Tools:</h4>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button class="btn btn-sm btn-outline-success" id="reload-website">Reload (pm2)</button>
+                        <button class="btn btn-outline-secondary btn-sm" id="refresh-db">Refresh database</button>
+                        <button class="btn btn-outline-secondary btn-sm" id="force-refresh-db">Force refresh database</button>
+                    </div>
                 </div>
             </div>
         </div>
