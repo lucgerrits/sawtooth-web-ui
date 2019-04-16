@@ -65,7 +65,7 @@
             callback: function(key, options) {
                 if(key == "search") {
                     var selection = getSelected();
-                    $("#search-data-query").val(selection);
+                    $("#search-data-query").val(selection.replace(/\ /, ""));
                     $("#search-data").submit();
                 } else if(key == "copy") {
                     document.execCommand("copy");
