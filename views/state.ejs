@@ -5,26 +5,23 @@
     <% include ../views/include/head %>
 </head>
 
-<body class="d-flex flex-column h-100 context-menu-one">
+<body class="d-flex flex-column h-100">
     <% include ../views/include/nav %>
     <main role="main" class="flex-shrink-0 mt-5">
-        <div class="container">
+        <div class="container context-menu-one">
             <h1>Data <small>search & analyse</small></h1>
             <div class="row">
                 <div class="col">
-                    <h2>Batches</h2>
+                    <h2>State</h2>
+
                     <ul class="list-unstyled">
-                        <% for(batch of batches) { %>
-                        <li class="media data-media">
-                            <div class="media-body media-box">
-                                <span class="media-body-header"><i class="fas fa-fingerprint"></i>: <%- batch.batch_id %></span>
+                        <% for(state of states) { %>
+                        <li class="media data-media media-box">
+                            <div class="media-body">
+                                <span class="media-body-header"><i class="fas fa-fingerprint"></i>: <%- state.address %></span>
                                 <br>
                                 <i class="far fa-file" title="Payload"></i>:<br>
-                                <pre class="media-body-payload"><%- PrintJSON("{\"transaction_ids\":"+batch.transaction_ids+"}" ) %></pre>
-                                <span class="text-muted"><i class="fas fa-key" title="public key"></i>: <i><%- batch.signer_public_key %></i></span>
-                                <span class="float-right">
-                                    <span class="badge badge-secondary"><%- batch.status %></span>
-                                </span>
+                                <pre class="media-body-payload"><%- PrintJSON(state.data) %></pre>
                             </div>
                         </li>
                         <% } %>

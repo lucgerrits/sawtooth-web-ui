@@ -32,7 +32,31 @@
     </main>
     <% include ../views/include/footer %>
     <script>
+    $("#refresh-db,#force-refresh-db").click(function() {
+        var btn = $(this)
+        var btn_txt = btn.text();
+        btn.addClass("disabled");
+        btn.text("loading...");
+        $("#loading").removeClass("d-none");
+        $.ajax({
+            type: "POST",
+            url: (btn.attr("id").indexOf("force")!=-1 ? "/force-update-db" : "/update-db"),
+            data: {},
+            dataType: "json",
+            success: function (data) {
+                btn.removeClass("disabled");
+                btn.text(btn_txt);
+                window.location.reload();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                btn.removeClass("disabled");
+                btn.text(btn_txt);
+                return alert("ERROR: \n" + XMLHttpRequest.responseText);
+            }
+        });
+    })
     $("#save-config-apiurl").click(function() {
+        $("#loading").removeClass("d-none");
         $.ajax({
             type: "POST",
             url: window.location.href + "/apiurl",
@@ -41,7 +65,9 @@
             },
             dataType: "json",
             success: function (data) {
-                window.location.reload();
+                setTimeout(function(){
+                    window.location.reload();
+                }, 2000);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 return alert("ERROR");
@@ -49,6 +75,7 @@
         });
     })
     $("#reload-website").click(function() {
+        $("#loading").removeClass("d-none");
         $.ajax({
             type: "POST",
             url: window.location.href + "/reload-website",

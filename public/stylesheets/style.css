@@ -36,9 +36,32 @@ body {
     -moz-transition: width 1s ease-in-out;
     -o-transition: width 1s ease-in-out;
     transition: width 1s ease-in-out;
-    width:200px;
+    width: 200px;
 }
 
 #search-data-query:focus {
     width: 30vw;
+}
+
+.media-box {
+    background-color: #f8f8f8;
+    padding: 5px
+}
+
+#loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    text-align: center;
+    width: 100%;
+    z-index: 99999;
+    background-color: rgba(255, 255, 255, 0.82);
+    height: 100%;
+}
+
+#loading>span {
+    top: 50%;
+    position: absolute;
+    left: 0;
+    width: 100%;
 }

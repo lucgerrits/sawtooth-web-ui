@@ -10,14 +10,15 @@
     <main role="main" class="flex-shrink-0 mt-5">
         <div class="container context-menu-one">
             <h1>Search <small>anything in the blockchain</small></h1>
-            <small><%- results.blocks.length %> block(s) | <%- results.batches.length %> batch(es) | <%- results.transactions.length %> transaction(s)</small>
+            <small><%- results.blocks.length %> block(s) | <%- results.batches.length %> batch(es) | <%- results.transactions.length %> transaction(s) | <%- results.states.length %> state(s)</small>
+            <% if(results.blocks.length) { %>
             <div class="row">
                 <div class="col">
                     <h2>Blocks</h2>
                     <ul class="list-unstyled">
                         <% for(block of results.blocks) { %>
                         <li class="media data-media">
-                            <div class="media-body">
+                            <div class="media-body media-box">
                                 <span class="media-body-header"><i class="fas fa-fingerprint"></i>: <%- block.block_id %></span>
                                 <br>
                                 <i class="far fa-file" title="Payload"></i>:<br>
@@ -32,33 +33,39 @@
                     </ul>
                 </div>
             </div>
-
+            <% } %>
+            <% if(results.batches.length) { %>
             <div class="row">
                 <div class="col">
                     <h2>Batches</h2>
                     <ul class="list-unstyled">
                         <% for(batch of results.batches) { %>
                         <li class="media data-media">
-                            <div class="media-body">
+                            <div class="media-body media-box">
                                 <span class="media-body-header"><i class="fas fa-fingerprint"></i>: <%- batch.batch_id %></span>
                                 <br>
                                 <i class="far fa-file" title="Payload"></i>:<br>
                                 <pre class="media-body-payload"><%- PrintJSON("{\"transaction_ids\":"+batch.transaction_ids+"}" ) %></pre>
                                 <span class="text-muted"><i class="fas fa-key" title="public key"></i>: <i><%- batch.signer_public_key %></i></span>
+                                <span class="float-right">
+                                    <span class="badge badge-secondary"><%- batch.status %></span>
+                                </span>
                             </div>
                         </li>
                         <% } %>
                     </ul>
                 </div>
             </div>
+            <% } %>
 
+            <% if(results.transactions.length) { %>
             <div class="row">
                 <div class="col">
                     <h2>Transactions</h2>
                     <ul class="list-unstyled">
                         <% for(transaction of results.transactions) { %>
                         <li class="media data-media">
-                            <div class="media-body">
+                            <div class="media-body media-box">
                                 <span class="media-body-header"><i class="fas fa-fingerprint"></i>: <%- transaction.transaction_id %></span>
                                 <br>
                                 <i class="far fa-file" title="Payload"></i>:<br>
@@ -74,6 +81,27 @@
                     </ul>
                 </div>
             </div>
+            <% } %>
+
+            <% if(results.states.length) { %>
+            <div class="row">
+                <div class="col">
+                    <h2>States</h2>
+                    <ul class="list-unstyled">
+                        <% for(state of results.states) { %>
+                        <li class="media data-media">
+                            <div class="media-body media-box">
+                                <span class="media-body-header"><i class="fas fa-fingerprint"></i>: <%- state.address %></span>
+                                <br>
+                                <i class="far fa-file" title="Payload"></i>:<br>
+                                <pre class="media-body-payload"><%- PrintJSON(state.data) %></pre>
+                            </div>
+                        </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+            <% } %>
 
         </div>
     </main>

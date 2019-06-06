@@ -49,4 +49,19 @@ router.get('/transactions', function (req, res, next) {
     })
 });
 
+router.get('/state', function (req, res, next) {
+    async.series([
+        function (callback) {
+            db.getState(function (err, data) {
+                res.ejs_params.states = data;
+                callback(err);
+            })
+        }
+    ], function (err) {
+        if (err) console.log(err);
+        res.ejs_params.title = "Data state";
+        return res.render('state', res.ejs_params);
+    })
+});
+
 module.exports = router;
