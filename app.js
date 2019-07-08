@@ -7,6 +7,10 @@ var config = require('./config.json');
 
 console.log("Starting sawatooth-web-ui");
 
+var libEvents = require('./lib/events')();
+
+
+
 var indexRouter = require('./routes/index');
 var configRouter = require('./routes/configuration');
 var dataRouter = require('./routes/data');
@@ -18,12 +22,12 @@ app.use(function (req, res, next) {
   res.ejs_params.title = "Sawtooth Web UI";
   res.ejs_params.config = config;
 
-  res.ejs_params.PrintJSON = function(data) {
+  res.ejs_params.PrintJSON = function (data) {
     try {
       var tmp = JSON.parse(data);
       tmp = JSON.stringify(tmp, null, 4);
       return tmp;
-    } catch(e) {
+    } catch (e) {
       return data;
     }
   }
