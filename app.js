@@ -15,6 +15,7 @@ var indexRouter = require('./routes/index');
 var configRouter = require('./routes/configuration');
 var dataRouter = require('./routes/data');
 var searchRouter = require('./routes/search');
+var carRouter = require('./routes/cars');
 
 var app = express();
 app.use(function (req, res, next) {
@@ -23,6 +24,8 @@ app.use(function (req, res, next) {
   res.ejs_params.config = config;
 
   res.ejs_params.PrintJSON = function (data) {
+    if (typeof data === 'object')
+      return JSON.stringify(data);
     try {
       var tmp = JSON.parse(data);
       tmp = JSON.stringify(tmp, null, 4);
@@ -47,6 +50,7 @@ app.use('/', indexRouter);
 app.use('/configuration', configRouter);
 app.use('/data', dataRouter);
 app.use('/search', searchRouter);
+app.use('/car', carRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

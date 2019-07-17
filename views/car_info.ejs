@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+    <% include ../views/include/head %>
+
+    <style>
+        .show-raw-data {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <% include ../views/include/nav %>
+    <main role="main" class="flex-shrink-0 mt-5">
+        <div class="container context-menu-one">
+            <h1>Car Info <small>All about this car</small></h1>
+            <div class="row">
+                <div class="col">
+                    <h2>Current Owner</h2>
+
+                    <ul class="list-unstyled">
+                        <li class="media data-media media-box">
+                            <img src="/data/state/<%- state.address %>/owner_picture" class="mr-3" alt="owner picture"
+                                style="width:100px">
+                            <div class="media-body" style="padding-right:120px">
+                                <span class="media-body-header"><i class="fas fa-car-side"></i> ID: <a
+                                        href="/car/id/<%- state.data.data.car_id %>"><%- state.data.data.car_id %></a></span>
+                                <br>
+                                <span><i class="fas fa-user"></i> Current owner: <%- state.data.data.owner %></span>
+                                <br>
+                                <span><i class="fas fa-car-crash"></i> # crashes: 0</span>
+                                <br>
+                                <span class="show-raw-data" data-address="<%- state.address %>">
+                                    <i class="fas fa-database"></i> Raw data <i class="fas fa-sort-down fa-2x"></i>
+                                </span>
+                                <pre class="media-body-payload car-raw-data" data-address="<%- state.address %>"
+                                    style="display: none"><%- PrintJSON(state.data) %></pre>
+                                <br>
+                                <span><small>State <i class="fas fa-at"></i>: <%- state.address %></small></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h2>Owner History</h2>
+                    <ul class="list-unstyled">
+                        <% for(owner of ownerHistory) { %>
+                        <li class="media data-media media-box">
+                            <img src="/data/transaction/<%- owner.transaction_id %>/owner_picture" class="mr-3"
+                                alt="owner picture" style="width:100px">
+                            <div class="media-body" style="padding-right:120px">
+                                <span><i class="fas fa-user"></i> Owner: <%- owner.payload_decoded.owner %></span>
+                                <br>
+                                <span><i class="fas fa-car-crash"></i> # crashes: 0</span>
+                                <br>
+                                <span class="show-raw-data" data-address="<%- owner.transaction_id %>">
+                                    <i class="fas fa-database"></i> Raw data <i class="fas fa-sort-down fa-2x"></i>
+                                </span>
+                                <pre class="media-body-payload car-raw-data" data-address="<%- owner.transaction_id %>"
+                                    style="display: none"><%- PrintJSON(owner.payload_decoded) %></pre>
+                                <br>
+                                <span><small>Tnx ID: <%- owner.transaction_id %></small></span>
+                            </div>
+                        </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    <% include ../views/include/footer %>
+    <script>
+        $(".media-body-payload").each(function () {
+            try {
+                var tmp = JSON.parse($(this).text());
+                $(this).jsonViewer(tmp, {
+                    collapsed: false,
+                    withQuotes: false,
+                    //withLinks: false,
+                    //rootCollapsable: true
+                });
+            } catch (e) {
+                console.log("Error loading JSON", e);
+            }
+        })
+
+        $(".show-raw-data").click(function () {
+            var current_address = $(this).attr("data-address");
+            $(".car-raw-data[data-address='" + current_address + "']").toggle("slow");
+        })
+
+    </script>
+</body>
+
+</html>
