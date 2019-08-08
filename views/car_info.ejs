@@ -15,30 +15,60 @@
     <% include ../views/include/nav %>
     <main role="main" class="flex-shrink-0 mt-5">
         <div class="container context-menu-one">
-            <h1>Car Info <small>All about this car</small></h1>
+            <h1>Car Info <small>All about car</small></h1>
             <div class="row">
                 <div class="col">
-                    <h2>Current Owner</h2>
+                    <table style="width:100%">
+                        <tr>
+                            <th><i class="fas fa-car-side"></i> ID</th>
+                            <td><%- car.data.car_id %></td>
+                        </tr>
+                        <tr>
+                                <th><i class="fas fa-industry"></i> Factory ID</th>
+                                <td><%- car.data.factory_id %></td>
+                            </tr>
+                        <tr>
+                            <th>Brand/Type</th>
+                            <td><%- car.data.car_brand %> <%- car.data.car_type %></td>
+                        </tr>
+                        <tr>
+                            <th>Licence</th>
+                            <td><%- car.data.car_licence %></td>
+                        </tr>
+                        <tr>
+                            <th><i class="fas fa-car-crash"></i> # crashes</th>
+                            <td><%- car.data.crashes.count %></td>
+                        </tr>
+                    </table>
 
+                    <h2>Current Owner</h2>
                     <ul class="list-unstyled">
                         <li class="media data-media media-box">
-                            <img src="/data/state/<%- state.address %>/owner_picture" class="mr-3" alt="owner picture"
-                                style="width:100px">
+                            <% if(car.data.owner.address == "N/A"){ %>
+                            <img src="/assets/no_image.png" class="mr-3" alt="owner picture" style="width:100px">
+                            <% } else { %>
+                            <img src="/data/state/<%- car.data.owner.address %>/owner_picture" class="mr-3"
+                                alt="owner picture" style="width:100px">
+                            <% } %>
                             <div class="media-body" style="padding-right:120px">
-                                <span class="media-body-header"><i class="fas fa-car-side"></i> ID: <a
-                                        href="/car/id/<%- state.data.data.car_id %>"><%- state.data.data.car_id %></a></span>
-                                <br>
-                                <span><i class="fas fa-user"></i> Current owner: <%- state.data.data.owner %></span>
-                                <br>
-                                <span><i class="fas fa-car-crash"></i> # crashes: 0</span>
-                                <br>
-                                <span class="show-raw-data" data-address="<%- state.address %>">
-                                    <i class="fas fa-database"></i> Raw data <i class="fas fa-sort-down fa-2x"></i>
-                                </span>
-                                <pre class="media-body-payload car-raw-data" data-address="<%- state.address %>"
-                                    style="display: none"><%- PrintJSON(state.data) %></pre>
-                                <br>
-                                <span><small>State <i class="fas fa-at"></i>: <%- state.address %></small></span>
+                                <table style="width:100%">
+                                    <tr>
+                                        <th><i class="fas fa-user"></i> Current owner</th>
+                                        <td><%- car.data.owner.owner_lastname %> <%- car.data.owner.owner_name %></td>
+                                    </tr>
+                                    <tr>
+                                        <th><i class="fas fa-car-crash"></i> # crashes</th>
+                                        <td><%- car.data.owner.crashes.count %> <a href="/car/owner-crashes/<%- car.data.owner.owner_id %>">Info</a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Car state <i class="fas fa-at"></i></th>
+                                        <td><%- car.address %></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Owner state <i class="fas fa-at"></i></th>
+                                        <td><%- car.data.owner.address %></td>
+                                    </tr>
+                                </table>
                             </div>
                         </li>
                     </ul>
@@ -53,23 +83,44 @@
                             <img src="/data/transaction/<%- owner.transaction_id %>/owner_picture" class="mr-3"
                                 alt="owner picture" style="width:100px">
                             <div class="media-body" style="padding-right:120px">
-                                <span><i class="fas fa-user"></i> Owner: <%- owner.payload_decoded.owner %></span>
-                                <br>
-                                <span><i class="fas fa-car-crash"></i> # crashes: 0</span>
-                                <br>
-                                <span class="show-raw-data" data-address="<%- owner.transaction_id %>">
-                                    <i class="fas fa-database"></i> Raw data <i class="fas fa-sort-down fa-2x"></i>
-                                </span>
-                                <pre class="media-body-payload car-raw-data" data-address="<%- owner.transaction_id %>"
-                                    style="display: none"><%- PrintJSON(owner.payload_decoded) %></pre>
-                                <br>
-                                <span><small>Tnx ID: <%- owner.transaction_id %></small></span>
+                                <table style="width:100%">
+                                    <tr>
+                                        <th><i class="fas fa-user"></i> Owner</th>
+                                        <td><%- owner.payload_decoded.owner_lastname %>
+                                            <%- owner.payload_decoded.owner_name %></td>
+                                    </tr>
+                                    <tr>
+                                        <th><i class="fas fa-car-crash"></i> # crashes</th>
+                                        <td><%- owner.crashes.count %> <a href="/car/owner-crashes/<%- owner.payload_decoded.owner_id %>">Info</a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tnx ID</th>
+                                        <td><a
+                                                href="/data/transactions/<%- owner.transaction_id %>"><%- owner.transaction_id.substr(0, 60) %>...</a>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </li>
                         <% } %>
                     </ul>
                 </div>
             </div>
+            <!-- <div class="row">
+                <div class="col">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item <% if(page == 0){ %>disabled"<% } %>">
+                                <a class="page-link" href="?page=<%- (parseInt(page)-1) %>" tabindex="-1" <% if(page == 0){ %>aria-disabled="true" <% } %>>Previous</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<%- (parseInt(page)+1) %>">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            -->
         </div>
     </main>
     <% include ../views/include/footer %>

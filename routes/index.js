@@ -12,20 +12,20 @@ router.get('/', function (req, res, next) {
   res.ejs_params.data = {}
   async.parallel([
     function (callback) {
-      db.getBlocks(function (err, data) {
-        res.ejs_params.blocks = data || [];
+      db.countBlocks(function (err, data) {
+        res.ejs_params.blocks = data[0].count;
         callback(err);
       })
     },
     function (callback) {
-      db.getBatches(function (err, data) {
-        res.ejs_params.batches = data || [];
+      db.countBatches(function (err, data) {
+        res.ejs_params.batches = data[0].count;
         callback(err);
       })
     },
     function (callback) {
-      db.getTransactions(function (err, data) {
-        res.ejs_params.transactions = data || [];
+      db.countTransactions(function (err, data) {
+        res.ejs_params.transactions = data[0].count;
         callback(err);
       })
     }
@@ -38,16 +38,19 @@ router.get('/', function (req, res, next) {
 
 router.post('/update-db', function (req, res, next) {
   db.updateDb(function (err) {
-    if (err) return res.status(500).send(err.message);
-    return res.json({});
+    if (err) return next(err);
   })
+  return res.json({});
 });
 
-router.post('/force-update-db', function (req, res, next) {
-  db.forceUpdateDb(function (err) {
-    if (err) return res.status(500).send(err.message);
-    return res.json({});
+router.post('/sync-update-db', function (req, res, next) {
+  // db.forceUpdateDb(function (err) {
+  //   if (err) return res.status(500).send(err.message);
+  // })
+  db.syncUpdateDb(function (err) {
+    if (err) return next(err);
   })
+  return res.json({});
 });
 
 module.exports = router;

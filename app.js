@@ -7,7 +7,6 @@ var config = require('./config.json');
 
 console.log("Starting sawatooth-web-ui");
 
-var libEvents = require('./lib/events')();
 
 
 
@@ -18,10 +17,14 @@ var searchRouter = require('./routes/search');
 var carRouter = require('./routes/cars');
 
 var app = express();
+var events = require('./lib/events')();
+
 app.use(function (req, res, next) {
   res.ejs_params = {};
   res.ejs_params.title = "Sawtooth Web UI";
   res.ejs_params.config = config;
+
+  res.ejs_params.page = (req.query.page || 0);
 
   res.ejs_params.PrintJSON = function (data) {
     if (typeof data === 'object')
@@ -40,7 +43,7 @@ app.use(function (req, res, next) {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
+app.use(logger(':date[clf] ":method :url"'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

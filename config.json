@@ -1,1 +1,1 @@
-{"sawtooth":{"apiurl":"http://127.0.0.1:8008"}}
+{"sawtooth":{"apiurl":"http://127.0.0.1:8008","address_prefixes_listen":["000000","1cf126","952c51"]}}

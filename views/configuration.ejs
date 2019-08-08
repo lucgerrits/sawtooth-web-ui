@@ -23,8 +23,8 @@
                     <h4>Tools:</h4>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button class="btn btn-sm btn-outline-success" id="reload-website">Reload (pm2)</button>
-                        <button class="btn btn-outline-secondary btn-sm" id="refresh-db">Refresh database</button>
-                        <button class="btn btn-outline-secondary btn-sm" id="force-refresh-db">Force refresh database</button>
+                        <button class="btn btn-outline-secondary btn-sm" id="refresh-db">Reset & retrieve database</button>
+                        <button class="btn btn-outline-secondary btn-sm" id="sync-refresh-db">Sync database</button>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
     </main>
     <% include ../views/include/footer %>
     <script>
-    $("#refresh-db,#force-refresh-db").click(function() {
+    $("#refresh-db,#sync-refresh-db").click(function() {
         var btn = $(this)
         var btn_txt = btn.text();
         btn.addClass("disabled");
@@ -40,7 +40,7 @@
         $("#loading").removeClass("d-none");
         $.ajax({
             type: "POST",
-            url: (btn.attr("id").indexOf("force")!=-1 ? "/force-update-db" : "/update-db"),
+            url: (btn.attr("id").indexOf("sync")!=-1 ? "/sync-update-db" : "/update-db"),
             data: {},
             dataType: "json",
             success: function (data) {

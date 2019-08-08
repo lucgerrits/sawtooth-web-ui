@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+    <% include ../views/include/head %>
+
+    <style>
+    .show-raw-data {
+        cursor: pointer;
+    }
+    </style>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <% include ../views/include/nav %>
+    <main role="main" class="flex-shrink-0 mt-5">
+        <div class="container context-menu-one">
+            <h1>Crash List <small><%- subtitle %></small></h1>
+            <div class="row">
+                <div class="col">
+                    <table style="width:100%">
+                        <tr>
+                            <th><i class="fas fa-user"></i> ID</th>
+                            <td><%- owner.owner_id %></td>
+                        </tr>
+                    </table>
+
+                  <% if(crashes.count) { %>
+                    <ul class="list-unstyled">
+                        <% for(crash of crashes.data) { %>
+                        <li class="media data-media media-box">
+                            <div class="media-body" style="padding-left:10px">
+                                <span class="media-body-header"><i class="fas fa-car-side"></i> ID: <%- crash.transaction_id %></span>
+                                <br>
+                                <table style="width:100%">
+                                    <tr>
+                                        <th><i class="fas fa-industry"></i> Date</th>
+                                        <td><%- crash.date_of_the_accident %></td> 
+                                    </tr>
+                                    <tr>
+                                        <th><i class="fas fa-industry"></i> Hour</th>
+                                        <td><%- crash.hour %></td> 
+                                    </tr>
+                                    <tr>
+                                        <th><i class="fas fa-industry"></i> Location</th>
+                                        <td><%- crash.location_place %>, <%- crash.location_country %></td> 
+                                    </tr>
+                                    <tr>
+                                        <th><i class="fas fa-industry"></i> Odometer</th>
+                                        <td><%- crash.odometer %> Km</td> 
+                                    </tr>
+                                </table>
+                            </div>
+                        </li>
+                        <% } %>
+                    </ul>
+                    <% } else { %>
+                      <div class="alert alert-info">No crashes found.</div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </main>
+    <% include ../views/include/footer %>
+<script>
+$(".media-body-payload").each(function() {
+    try {
+      var tmp = JSON.parse($(this).text());
+      $(this).jsonViewer(tmp, {
+            collapsed: false,
+            withQuotes: false,
+            //withLinks: false,
+            //rootCollapsable: true
+        });
+    } catch(e) {
+        console.log("Error loading JSON", e);
+    }
+})
+
+$(".show-raw-data").click(function() {
+    var current_address = $(this).attr("data-address");
+    $(".car-raw-data[data-address='" + current_address + "']").toggle("slow");
+})
+
+</script>
+</body>
+</html>
